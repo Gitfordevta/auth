@@ -58,7 +58,11 @@ export class AuthService {
         },
       };
     } catch (error) {
-      throw new ForbiddenException(error);
+      if(error instanceof(UnauthorizedException)){
+        throw error
+      }
+      console.error("Error while login:", error);
+      throw new Error(error);
     }
   }
   async validateUser(dto: AuthDto) {
