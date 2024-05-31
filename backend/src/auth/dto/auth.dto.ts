@@ -8,7 +8,7 @@ export class AuthDto {
   })
   @IsNotEmpty()
   @IsString()
-  email: string;
+  username: string;
 
   @ApiProperty({
     example: '123456789',

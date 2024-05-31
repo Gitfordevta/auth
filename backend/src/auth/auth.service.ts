@@ -19,7 +19,7 @@ export class AuthService {
   ) {}
   async register(dto: AuthDto) {
     //check user if user not exist throw error credentials not matched
-    const checkUser = await this.userService.findUserByEmail(dto.email);
+    const checkUser = await this.userService.findUserByEmail(dto.username);
     //hash the password
     const hashPassword = await hash(dto.password);
     console.log(checkUser);
@@ -27,7 +27,7 @@ export class AuthService {
     if (checkUser) throw new ConflictException('Invalid Credentials');
     const registerUser = this.prisma.user.create({
       data: {
-        email: dto.email,
+        email: dto.username,
         password: hashPassword,
       },
     });
@@ -67,7 +67,7 @@ export class AuthService {
   }
   async validateUser(dto: AuthDto) {
     //check if user exist
-    const checkUser = await this.userService.findUserByEmail(dto.email);
+    const checkUser = await this.userService.findUserByEmail(dto.username);
 
     //if user exist and password matched
     if (checkUser && (await verify(checkUser.password, dto.password))) {

@@ -29,10 +29,7 @@ export const authOptions: NextAuthOptions = {
             "Content-Type": "application/json",
           },
         });
-
-        console.log(resp);
         if (resp.status == 401) {
-          console.log(resp.statusText);
           return null;
         }
         const user = await resp.json();
@@ -40,6 +37,16 @@ export const authOptions: NextAuthOptions = {
       },
     }),
   ],
+  callbacks: {
+    async jwt({ token, user }) {
+      console.log(token, user);
+      if (user) return { ...token, ...user };
+      return token;
+    },
+    async session({token,session}){
+      session.user = token.user
+    }
+  },
 };
 const handler = NextAuth(authOptions);
 export { handler as GET, handler as POST };
