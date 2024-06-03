@@ -12,3 +12,20 @@ declare module "next-auth" {
     };
   }
 }
+
+import { JWT } from "next-auth/jwt";
+import { decl } from "postcss";
+
+declare module "next-auth/jwt" {
+  interface JWT {
+    user: {
+      id: number;
+      email: string;
+      name: string;
+    };
+    backendTokens: {
+      accessToken: string;
+      refreshToken: string;
+    };
+  }
+}

@@ -43,9 +43,11 @@ export const authOptions: NextAuthOptions = {
       if (user) return { ...token, ...user };
       return token;
     },
-    async session({token,session}){
-      session.user = token.user
-    }
+    async session({ token, session }) {
+      session.user = token.user;
+      session.backendTokens = session.backendTokens;
+      return session;
+    },
   },
 };
 const handler = NextAuth(authOptions);
