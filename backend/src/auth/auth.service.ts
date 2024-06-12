@@ -27,6 +27,7 @@ export class AuthService {
     if (checkUser) throw new ConflictException('Invalid Credentials');
     const registerUser = this.prisma.user.create({
       data: {
+        name: dto.name,
         email: dto.username,
         password: hashPassword,
       },
@@ -58,10 +59,10 @@ export class AuthService {
         },
       };
     } catch (error) {
-      if(error instanceof(UnauthorizedException)){
-        throw error
+      if (error instanceof UnauthorizedException) {
+        throw error;
       }
-      console.error("Error while login:", error);
+      console.error('Error while login:', error);
       throw new Error(error);
     }
   }
